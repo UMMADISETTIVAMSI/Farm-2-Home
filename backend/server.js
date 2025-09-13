@@ -12,8 +12,10 @@ const app = express();
 
 app.use(compression());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://ummadisettivamsi.github.io' : 'http://localhost:3000',
-  credentials: true
+  origin: ['https://ummadisettivamsi.github.io', 'http://localhost:3000'],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
