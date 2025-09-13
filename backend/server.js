@@ -12,7 +12,7 @@ const app = express();
 
 app.use(compression());
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' ? 'https://your-domain.com' : 'http://localhost:3000',
+  origin: process.env.NODE_ENV === 'production' ? 'https://ummadisettivamsi.github.io' : 'http://localhost:3000',
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
@@ -39,6 +39,10 @@ const connectDB = async () => {
 };
 
 connectDB();
+
+app.get('/', (req, res) => {
+  res.json({ message: 'Farm2Home Backend API is running!' });
+});
 
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
