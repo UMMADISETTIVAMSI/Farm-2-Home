@@ -26,15 +26,19 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen theme-bg pt-16">
+      <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
         <Navbar user={user} logout={logout} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to="/dashboard" />} />
-          <Route path="/register" element={!user ? <Register setUser={setUser} /> : <Navigate to="/dashboard" />} />
-          <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Navigate to="/login" />} />
-          <Route path="/profile" element={user ? <Profile user={user} setUser={setUser} /> : <Navigate to="/login" />} />
-        </Routes>
+        <div style={{ paddingTop: '70px' }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={!user ? <Login setUser={setUser} /> : <Navigate to="/dashboard" />} />
+            <Route path="/register" element={!user ? <Register setUser={setUser} /> : <Navigate to="/dashboard" />} />
+            <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Navigate to="/login" />} />
+            <Route path="/profile" element={user ? <Profile user={user} setUser={setUser} /> : <Navigate to="/login" />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );
