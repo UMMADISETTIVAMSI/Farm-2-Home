@@ -169,13 +169,13 @@ const Dashboard = ({ user }) => {
 
   return (
     <div className="container mx-auto px-4 py-8 pt-24">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Dashboard - {user.name}</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-white">Dashboard - {user.name}</h1>
       
       <div className="flex space-x-4 mb-6">
         {user.role === 'client' && (
           <button
             onClick={() => setActiveTab('browse')}
-            className={`px-4 py-2 rounded transition-colors ${activeTab === 'browse' ? 'bg-blue-400 text-white' : 'bg-white border border-gray-200 text-gray-800'}`}
+            className={`px-4 py-2 rounded transition-colors ${activeTab === 'browse' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
           >
             Browse Products
           </button>
@@ -183,14 +183,14 @@ const Dashboard = ({ user }) => {
         {user.role === 'farmer' && (
           <button
             onClick={() => setActiveTab('products')}
-            className={`px-4 py-2 rounded transition-colors ${activeTab === 'products' ? 'bg-blue-400 text-white' : 'bg-white border border-gray-200 text-gray-800'}`}
+            className={`px-4 py-2 rounded transition-colors ${activeTab === 'products' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
           >
             My Products
           </button>
         )}
         <button
           onClick={() => setActiveTab('orders')}
-          className={`px-4 py-2 rounded transition-colors ${activeTab === 'orders' ? 'bg-blue-400 text-white' : 'bg-white border border-gray-200 text-gray-800'}`}
+          className={`px-4 py-2 rounded transition-colors ${activeTab === 'orders' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
         >
           {user.role === 'farmer' ? 'Incoming Orders' : 'My Orders'}
         </button>
@@ -202,13 +202,13 @@ const Dashboard = ({ user }) => {
             <input
               type="text"
               placeholder="Search products..."
-              className="flex-1 p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
+              className="flex-1 p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
 
             <select
-              className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
+              className="p-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
@@ -225,33 +225,33 @@ const Dashboard = ({ user }) => {
           {loading ? (
             <div className="text-center py-8">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
-              <p className="mt-2 text-gray-600">Loading products...</p>
+              <p className="mt-2 text-gray-600 dark:text-gray-300">Loading products...</p>
             </div>
           ) : (
             <>
               <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {productList.length === 0 ? (
-                  <p className="col-span-full text-center text-gray-600">No products available</p>
+                  <p className="col-span-full text-center text-gray-600 dark:text-gray-300">No products available</p>
                 ) : (
                   productList.map(product => (
-                    <div key={product._id} className="bg-white border border-gray-200 p-4 rounded-lg shadow-lg">
+                    <div key={product._id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 rounded-lg shadow-lg">
                       {product.image && (
                         <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3" />
                       )}
-                      <h3 className="text-lg font-semibold mb-2 text-gray-800">{product.name}</h3>
-                      <p className="text-gray-600 mb-1 text-sm">Category: {product.category}</p>
+                      <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">{product.name}</h3>
+                      <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">Category: {product.category}</p>
                       <p className="text-emerald-500 font-bold mb-2">₹{product.price}/{product.unit}</p>
-                      <p className="text-gray-600 mb-1 text-sm">Available: {product.quantity} {product.unit}</p>
-                      <p className="text-gray-600 mb-1 text-sm">Farm: {product.farmName}</p>
-                      <p className="text-gray-600 mb-1 text-sm">Area: {product.farmAddress}</p>
-                      <p className="text-gray-600 mb-3 text-sm">Phone: {product.farmPhone}</p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">Available: {product.quantity} {product.unit}</p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">Farm: {product.farmName}</p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">Area: {product.farmAddress}</p>
+                      <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm">Phone: {product.farmPhone}</p>
                       <div className="flex space-x-2">
                         <input
                           type="number"
                           min="1"
                           max={product.quantity}
                           placeholder="Qty"
-                          className="w-16 p-2 border border-gray-200 rounded text-sm bg-white text-gray-800"
+                          className="w-16 p-2 border border-gray-200 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
                           id={`qty-${product._id}`}
                         />
                         <button
