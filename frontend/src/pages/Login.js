@@ -42,7 +42,7 @@ const Login = ({ setUser }) => {
             </div>
           )}
           
-          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+          <form onSubmit={handleSubmit} className="space-y-6" noValidate autoComplete="on">
             <div>
               <label className="block text-gray-800 font-semibold mb-2">
                 <i className="fas fa-envelope mr-2 text-blue-400"></i>Email or Username
@@ -54,7 +54,7 @@ const Login = ({ setUser }) => {
                 className="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all duration-200 bg-white text-gray-800"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value.trim()})}
-                autoComplete="off"
+                autoComplete="username"
                 autoCapitalize="none"
                 autoCorrect="off"
                 spellCheck="false"
