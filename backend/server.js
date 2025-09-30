@@ -12,7 +12,7 @@ const app = express();
 
 app.use(compression());
 app.use(cors({
-  origin: ['https://ummadisettivamsi.github.io', 'https://UMMADISETTIVAMSI.github.io', 'http://localhost:3000'],
+  origin: true, // Allow all origins for now
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
