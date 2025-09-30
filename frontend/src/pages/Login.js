@@ -48,11 +48,15 @@ const Login = ({ setUser }) => {
                 <i className="fas fa-envelope mr-2 text-blue-400"></i>Email or Username
               </label>
               <input
-                type="text"
+                type="email"
                 placeholder="Enter your email or username"
                 className="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all duration-200 bg-white text-gray-800"
                 value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                onChange={(e) => setFormData({...formData, email: e.target.value.trim()})}
+                autoComplete="email"
+                autoCapitalize="none"
+                autoCorrect="off"
+                spellCheck="false"
                 required
               />
             </div>
@@ -68,6 +72,10 @@ const Login = ({ setUser }) => {
                   className="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all duration-200 bg-white text-gray-800 pr-12"
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
+                  autoComplete="current-password"
+                  autoCapitalize="none"
+                  autoCorrect="off"
+                  spellCheck="false"
                   required
                 />
                 <button

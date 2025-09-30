@@ -53,7 +53,11 @@ const Register = ({ setUser }) => {
               type="email"
               className="w-full p-3 border rounded-lg"
               value={formData.email}
-              onChange={(e) => setFormData({...formData, email: e.target.value})}
+              onChange={(e) => setFormData({...formData, email: e.target.value.trim()})}
+              autoComplete="email"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck="false"
               required
             />
           </div>
