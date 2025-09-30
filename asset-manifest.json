@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Farm-2-Home/static/css/main.93a0497a.css",
-    "main.js": "/Farm-2-Home/static/js/main.d4e3bd41.js",
+    "main.js": "/Farm-2-Home/static/js/main.5871020d.js",
     "index.html": "/Farm-2-Home/index.html",
     "main.93a0497a.css.map": "/Farm-2-Home/static/css/main.93a0497a.css.map",
-    "main.d4e3bd41.js.map": "/Farm-2-Home/static/js/main.d4e3bd41.js.map"
+    "main.5871020d.js.map": "/Farm-2-Home/static/js/main.5871020d.js.map"
   },
   "entrypoints": [
     "static/css/main.93a0497a.css",
-    "static/js/main.d4e3bd41.js"
+    "static/js/main.5871020d.js"
   ]
 }
