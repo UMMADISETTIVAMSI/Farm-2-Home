@@ -66,12 +66,15 @@ const Dashboard = ({ user }) => {
       if (searchTerm.trim()) params.search = searchTerm.trim();
       if (category) params.category = category;
       
+      console.log('Loading products with params:', params);
       const response = await products.getAll(params);
+      console.log('Products response:', response.data);
       setProductList(response.data.products);
       setTotalPages(response.data.totalPages);
       setCurrentPage(response.data.page);
     } catch (error) {
       console.error('Error loading products:', error);
+      console.error('Error details:', error.response?.data);
     } finally {
       setLoading(false);
     }
