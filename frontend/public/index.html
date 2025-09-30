@@ -6,6 +6,11 @@
   <title>Farm2Home - Direct Farm to Consumer</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    // Configure Tailwind for dark mode
+    tailwind.config = {
+      darkMode: 'class'
+    };
+    
     // Suppress Tailwind CDN production warning
     if (typeof console !== 'undefined') {
       const originalWarn = console.warn;
