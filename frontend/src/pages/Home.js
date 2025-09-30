@@ -5,24 +5,24 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="pt-20 bg-gradient-to-br from-blue-50 via-emerald-50 to-amber-50">
+      <div className="pt-20">
         <div className="container mx-auto px-6 py-20">
           <div className="text-center">
-            <h1 className="text-6xl md:text-7xl font-bold mb-6 text-gray-800">
+            <h1 className="text-6xl md:text-7xl font-bold mb-6 text-gray-800 dark:text-white">
               <i className="fas fa-seedling mr-4"></i>
               Farm2Home
             </h1>
-            <p className="text-2xl md:text-3xl mb-8 text-gray-800 font-light">
+            <p className="text-2xl md:text-3xl mb-8 text-gray-800 dark:text-gray-200 font-light">
               Connecting Farmers & Consumers Directly
             </p>
-            <p className="text-lg mb-12 text-gray-600 max-w-2xl mx-auto">
+            <p className="text-lg mb-12 text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
               Skip the middleman. Get fresh, organic produce straight from local farms to your table.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/register" className="bg-white text-emerald-500 px-8 py-4 rounded-full font-semibold text-lg hover:opacity-90 transition-all duration-300 hover:scale-105 shadow-xl">
+              <Link to="/register" className="bg-white dark:bg-gray-800 text-emerald-500 dark:text-emerald-400 px-8 py-4 rounded-full font-semibold text-lg hover:opacity-90 transition-all duration-300 hover:scale-105 shadow-xl">
                 <i className="fas fa-rocket mr-2"></i>Start Your Journey
               </Link>
-              <Link to="/login" className="border-2 border-gray-200 text-gray-800 px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/10 transition-all duration-300 hover:scale-105">
+              <Link to="/login" className="border-2 border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/10 dark:hover:bg-gray-800/10 transition-all duration-300 hover:scale-105">
                 <i className="fas fa-sign-in-alt mr-2"></i>Sign In
               </Link>
             </div>
@@ -31,33 +31,33 @@ const Home = () => {
       </div>
 
       {/* Features Section */}
-      <div className="py-20 bg-white">
+      <div className="py-20">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Why Choose Farm2Home?</h2>
-            <p className="text-xl text-gray-600">Experience the difference of direct farm-to-table shopping</p>
+            <h2 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">Why Choose Farm2Home?</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-300">Experience the difference of direct farm-to-table shopping</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="bg-white border border-gray-200 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="text-4xl mb-4 text-emerald-500">
                 <i className="fas fa-leaf"></i>
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Fresh & Organic</h3>
-              <p className="text-gray-600 leading-relaxed">Get the freshest, pesticide-free produce harvested just for you from certified organic farms.</p>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Fresh & Organic</h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">Get the freshest, pesticide-free produce harvested just for you from certified organic farms.</p>
             </div>
-            <div className="bg-white border border-gray-200 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="text-4xl mb-4 text-emerald-500">
                 <i className="fas fa-truck"></i>
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Fast Delivery</h3>
-              <p className="text-gray-600 leading-relaxed">Quick and reliable delivery from local farms in your area, ensuring maximum freshness.</p>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Fast Delivery</h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">Quick and reliable delivery from local farms in your area, ensuring maximum freshness.</p>
             </div>
-            <div className="bg-white border border-gray-200 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="text-4xl mb-4 text-emerald-500">
                 <i className="fas fa-heart"></i>
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-gray-800">Support Local</h3>
-              <p className="text-gray-600 leading-relaxed">Directly support local farmers and contribute to your community's economic growth.</p>
+              <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-white">Support Local</h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">Directly support local farmers and contribute to your community's economic growth.</p>
             </div>
           </div>
         </div>
