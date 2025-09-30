@@ -5,8 +5,8 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   try {
-    const { search, category, page = 1, limit = 12 } = req.query;
-    let query = { quantity: { $gt: 0 } };
+    const { search, category, page = 1, limit = 50 } = req.query;
+    let query = {};
     
     if (search) query.name = { $regex: search, $options: 'i' };
     if (category) query.category = category;
