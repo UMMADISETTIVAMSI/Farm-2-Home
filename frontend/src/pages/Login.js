@@ -26,13 +26,13 @@ const Login = ({ setUser }) => {
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 pt-24">
       <div className="max-w-md w-full">
-        <div className="theme-card backdrop-blur-sm p-8 rounded-2xl shadow-2xl animate-slide-up">
+        <div className="bg-white border border-gray-200 p-8 rounded-2xl shadow-2xl">
           <div className="text-center mb-8">
             <div className="text-4xl mb-4">
               <i className="fas fa-sign-in-alt text-blue-400"></i>
             </div>
-            <h2 className="text-3xl font-bold theme-text-primary mb-2">Welcome Back</h2>
-            <p className="theme-text-secondary">Sign in to your Farm2Home account</p>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">Welcome Back</h2>
+            <p className="text-gray-600">Sign in to your Farm2Home account</p>
           </div>
           
           {error && (
@@ -44,13 +44,13 @@ const Login = ({ setUser }) => {
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block theme-text-primary font-semibold mb-2">
+              <label className="block text-gray-800 font-semibold mb-2">
                 <i className="fas fa-envelope mr-2 text-blue-400"></i>Email or Username
               </label>
               <input
                 type="text"
                 placeholder="Enter your email or username"
-                className="w-full p-4 theme-border rounded-xl focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all duration-200 theme-card theme-text-primary"
+                className="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all duration-200 bg-white text-gray-800"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
                 required
@@ -58,21 +58,21 @@ const Login = ({ setUser }) => {
             </div>
             
             <div>
-              <label className="block theme-text-primary font-semibold mb-2">
+              <label className="block text-gray-800 font-semibold mb-2">
                 <i className="fas fa-lock mr-2 text-blue-400"></i>Password
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Enter your password"
-                  className="w-full p-4 theme-border rounded-xl focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all duration-200 theme-card theme-text-primary pr-12"
+                  className="w-full p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-300 focus:border-transparent transition-all duration-200 bg-white text-gray-800 pr-12"
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
                   required
                 />
                 <button
                   type="button"
-                  className="absolute right-4 top-4 theme-text-secondary hover:opacity-70 transition-colors duration-200"
+                  className="absolute right-4 top-4 text-gray-600 hover:opacity-70 transition-colors duration-200"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
@@ -100,7 +100,7 @@ const Login = ({ setUser }) => {
           </form>
           
           <div className="text-center mt-8">
-            <p className="theme-text-secondary">
+            <p className="text-gray-600">
               Don't have an account? 
               <Link to="/register" className="text-blue-500 hover:text-blue-600 font-semibold ml-1 hover:underline transition-colors duration-200">
                 Create Account

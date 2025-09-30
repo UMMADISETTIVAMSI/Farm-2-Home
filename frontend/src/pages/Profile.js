@@ -41,7 +41,7 @@ const Profile = ({ user, setUser }) => {
 
   return (
     <div className="container mx-auto px-4 py-8 pt-24">
-      <div className="max-w-md mx-auto theme-card p-6 rounded-lg">
+      <div className="max-w-md mx-auto bg-white border border-gray-200 p-6 rounded-lg shadow-lg">
         <div className="text-center mb-6">
           <div className="w-24 h-24 rounded-full mx-auto mb-4 bg-gray-200 flex items-center justify-center overflow-hidden">
             {(profile.profileImage || user.profileImage) ? (
@@ -51,10 +51,10 @@ const Profile = ({ user, setUser }) => {
                 className="w-full h-full object-cover" 
               />
             ) : (
-              <span className="theme-text-secondary text-2xl">👤</span>
+              <span className="text-gray-600 text-2xl">👤</span>
             )}
           </div>
-          <h2 className="text-2xl font-bold theme-text-primary">
+          <h2 className="text-2xl font-bold text-gray-800">
             {user.role === 'farmer' ? 'Farmer' : 'Client'} Profile
           </h2>
         </div>
@@ -62,38 +62,38 @@ const Profile = ({ user, setUser }) => {
         {!isEditing ? (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium theme-text-secondary">Name</label>
-              <p className="mt-1 theme-text-primary">{user.name}</p>
+              <label className="block text-sm font-medium text-gray-600">Name</label>
+              <p className="mt-1 text-gray-800">{user.name}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium theme-text-secondary">Email</label>
-              <p className="mt-1 theme-text-primary">{user.email}</p>
+              <label className="block text-sm font-medium text-gray-600">Email</label>
+              <p className="mt-1 text-gray-800">{user.email}</p>
             </div>
             <div>
-              <label className="block text-sm font-medium theme-text-secondary">Role</label>
-              <p className="mt-1 theme-text-primary capitalize">{user.role}</p>
+              <label className="block text-sm font-medium text-gray-600">Role</label>
+              <p className="mt-1 text-gray-800 capitalize">{user.role}</p>
             </div>
             {user.phone && (
               <div>
-                <label className="block text-sm font-medium theme-text-secondary">Phone</label>
-                <p className="mt-1 theme-text-primary">{user.phone}</p>
+                <label className="block text-sm font-medium text-gray-600">Phone</label>
+                <p className="mt-1 text-gray-800">{user.phone}</p>
               </div>
             )}
             {user.role === 'farmer' && user.farmName && (
               <div>
-                <label className="block text-sm font-medium theme-text-secondary">Farm Name</label>
-                <p className="mt-1 theme-text-primary">{user.farmName}</p>
+                <label className="block text-sm font-medium text-gray-600">Farm Name</label>
+                <p className="mt-1 text-gray-800">{user.farmName}</p>
               </div>
             )}
             {user.address && (
               <div>
-                <label className="block text-sm font-medium theme-text-secondary">Address</label>
-                <p className="mt-1 theme-text-primary">{user.address}</p>
+                <label className="block text-sm font-medium text-gray-600">Address</label>
+                <p className="mt-1 text-gray-800">{user.address}</p>
               </div>
             )}
             <div>
-              <label className="block text-sm font-medium theme-text-secondary">Profile Photo</label>
-              <p className="mt-1 theme-text-primary">{user.profileImage ? 'Uploaded' : 'Not uploaded'}</p>
+              <label className="block text-sm font-medium text-gray-600">Profile Photo</label>
+              <p className="mt-1 text-gray-800">{user.profileImage ? 'Uploaded' : 'Not uploaded'}</p>
             </div>
             <button
               onClick={() => setIsEditing(true)}
@@ -105,11 +105,11 @@ const Profile = ({ user, setUser }) => {
         ) : (
           <form onSubmit={handleUpdate} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium theme-text-primary mb-2">Profile Image</label>
+              <label className="block text-sm font-medium text-gray-800 mb-2">Profile Image</label>
               <input
                 type="file"
                 accept="image/*"
-                className="w-full p-3 theme-border rounded-lg theme-card theme-text-primary"
+                className="w-full p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                 onChange={handleImageUpload}
               />
               {profile.profileImage && (
@@ -117,39 +117,39 @@ const Profile = ({ user, setUser }) => {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium theme-text-primary">Name</label>
+              <label className="block text-sm font-medium text-gray-800">Name</label>
               <input
                 type="text"
-                className="mt-1 w-full p-3 theme-border rounded-lg theme-card theme-text-primary"
+                className="mt-1 w-full p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                 value={profile.name}
                 onChange={(e) => setProfile({...profile, name: e.target.value})}
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium theme-text-primary">Phone</label>
+              <label className="block text-sm font-medium text-gray-800">Phone</label>
               <input
                 type="tel"
-                className="mt-1 w-full p-3 theme-border rounded-lg theme-card theme-text-primary"
+                className="mt-1 w-full p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                 value={profile.phone}
                 onChange={(e) => setProfile({...profile, phone: e.target.value})}
               />
             </div>
             {user.role === 'farmer' && (
               <div>
-                <label className="block text-sm font-medium theme-text-primary">Farm Name</label>
+                <label className="block text-sm font-medium text-gray-800">Farm Name</label>
                 <input
                   type="text"
-                  className="mt-1 w-full p-3 theme-border rounded-lg theme-card theme-text-primary"
+                  className="mt-1 w-full p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                   value={profile.farmName}
                   onChange={(e) => setProfile({...profile, farmName: e.target.value})}
                 />
               </div>
             )}
             <div>
-              <label className="block text-sm font-medium theme-text-primary">Address</label>
+              <label className="block text-sm font-medium text-gray-800">Address</label>
               <textarea
-                className="mt-1 w-full p-3 theme-border rounded-lg theme-card theme-text-primary"
+                className="mt-1 w-full p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                 value={profile.address}
                 onChange={(e) => setProfile({...profile, address: e.target.value})}
                 rows="3"

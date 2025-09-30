@@ -169,13 +169,13 @@ const Dashboard = ({ user }) => {
 
   return (
     <div className="container mx-auto px-4 py-8 pt-24">
-      <h1 className="text-3xl font-bold mb-6 theme-text-primary">Dashboard - {user.name}</h1>
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">Dashboard - {user.name}</h1>
       
       <div className="flex space-x-4 mb-6">
         {user.role === 'client' && (
           <button
             onClick={() => setActiveTab('browse')}
-            className={`px-4 py-2 rounded transition-colors ${activeTab === 'browse' ? 'bg-blue-400 text-white' : 'theme-card theme-text-primary'}`}
+            className={`px-4 py-2 rounded transition-colors ${activeTab === 'browse' ? 'bg-blue-400 text-white' : 'bg-white border border-gray-200 text-gray-800'}`}
           >
             Browse Products
           </button>
@@ -183,14 +183,14 @@ const Dashboard = ({ user }) => {
         {user.role === 'farmer' && (
           <button
             onClick={() => setActiveTab('products')}
-            className={`px-4 py-2 rounded transition-colors ${activeTab === 'products' ? 'bg-blue-400 text-white' : 'theme-card theme-text-primary'}`}
+            className={`px-4 py-2 rounded transition-colors ${activeTab === 'products' ? 'bg-blue-400 text-white' : 'bg-white border border-gray-200 text-gray-800'}`}
           >
             My Products
           </button>
         )}
         <button
           onClick={() => setActiveTab('orders')}
-          className={`px-4 py-2 rounded transition-colors ${activeTab === 'orders' ? 'bg-blue-400 text-white' : 'theme-card theme-text-primary'}`}
+          className={`px-4 py-2 rounded transition-colors ${activeTab === 'orders' ? 'bg-blue-400 text-white' : 'bg-white border border-gray-200 text-gray-800'}`}
         >
           {user.role === 'farmer' ? 'Incoming Orders' : 'My Orders'}
         </button>
@@ -202,13 +202,13 @@ const Dashboard = ({ user }) => {
             <input
               type="text"
               placeholder="Search products..."
-              className="flex-1 p-3 theme-border rounded-lg theme-card theme-text-primary"
+              className="flex-1 p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
 
             <select
-              className="p-3 theme-border rounded-lg theme-card theme-text-primary"
+              className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
             >
@@ -225,33 +225,33 @@ const Dashboard = ({ user }) => {
           {loading ? (
             <div className="text-center py-8">
               <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-400"></div>
-              <p className="mt-2 theme-text-secondary">Loading products...</p>
+              <p className="mt-2 text-gray-600">Loading products...</p>
             </div>
           ) : (
             <>
               <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {productList.length === 0 ? (
-                  <p className="col-span-full text-center theme-text-secondary">No products available</p>
+                  <p className="col-span-full text-center text-gray-600">No products available</p>
                 ) : (
                   productList.map(product => (
-                    <div key={product._id} className="theme-card p-4 rounded-lg">
+                    <div key={product._id} className="bg-white border border-gray-200 p-4 rounded-lg shadow-lg">
                       {product.image && (
                         <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3" />
                       )}
-                      <h3 className="text-lg font-semibold mb-2 theme-text-primary">{product.name}</h3>
-                      <p className="theme-text-secondary mb-1 text-sm">Category: {product.category}</p>
-                      <p className="theme-text-accent font-bold mb-2">₹{product.price}/{product.unit}</p>
-                      <p className="theme-text-secondary mb-1 text-sm">Available: {product.quantity} {product.unit}</p>
-                      <p className="theme-text-secondary mb-1 text-sm">Farm: {product.farmName}</p>
-                      <p className="theme-text-secondary mb-1 text-sm">Area: {product.farmAddress}</p>
-                      <p className="theme-text-secondary mb-3 text-sm">Phone: {product.farmPhone}</p>
+                      <h3 className="text-lg font-semibold mb-2 text-gray-800">{product.name}</h3>
+                      <p className="text-gray-600 mb-1 text-sm">Category: {product.category}</p>
+                      <p className="text-emerald-500 font-bold mb-2">₹{product.price}/{product.unit}</p>
+                      <p className="text-gray-600 mb-1 text-sm">Available: {product.quantity} {product.unit}</p>
+                      <p className="text-gray-600 mb-1 text-sm">Farm: {product.farmName}</p>
+                      <p className="text-gray-600 mb-1 text-sm">Area: {product.farmAddress}</p>
+                      <p className="text-gray-600 mb-3 text-sm">Phone: {product.farmPhone}</p>
                       <div className="flex space-x-2">
                         <input
                           type="number"
                           min="1"
                           max={product.quantity}
                           placeholder="Qty"
-                          className="w-16 p-2 theme-border rounded text-sm theme-card theme-text-primary"
+                          className="w-16 p-2 border border-gray-200 rounded text-sm bg-white text-gray-800"
                           id={`qty-${product._id}`}
                         />
                         <button
@@ -274,7 +274,7 @@ const Dashboard = ({ user }) => {
                   <button
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
-                    className="px-4 py-2 theme-border rounded disabled:opacity-50 disabled:cursor-not-allowed theme-card theme-text-primary"
+                    className="px-4 py-2 border border-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed bg-white text-gray-800"
                   >
                     Previous
                   </button>
@@ -282,8 +282,8 @@ const Dashboard = ({ user }) => {
                     <button
                       key={i + 1}
                       onClick={() => handlePageChange(i + 1)}
-                      className={`px-4 py-2 theme-border rounded ${
-                        currentPage === i + 1 ? 'bg-blue-400 text-white' : 'theme-card theme-text-primary hover:opacity-80'
+                      className={`px-4 py-2 border border-gray-200 rounded ${
+                        currentPage === i + 1 ? 'bg-blue-400 text-white' : 'bg-white text-gray-800 hover:opacity-80'
                       }`}
                     >
                       {i + 1}
@@ -292,7 +292,7 @@ const Dashboard = ({ user }) => {
                   <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
-                    className="px-4 py-2 theme-border rounded disabled:opacity-50 disabled:cursor-not-allowed theme-card theme-text-primary"
+                    className="px-4 py-2 border border-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed bg-white text-gray-800"
                   >
                     Next
                   </button>
@@ -306,7 +306,7 @@ const Dashboard = ({ user }) => {
       {activeTab === 'products' && user.role === 'farmer' && (
         <div>
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold theme-text-primary">My Products</h2>
+            <h2 className="text-2xl font-bold text-gray-800">My Products</h2>
             <button
               onClick={() => setShowAddProduct(true)}
               className="bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500"
@@ -316,19 +316,19 @@ const Dashboard = ({ user }) => {
           </div>
 
           {showAddProduct && (
-            <div className="theme-card p-6 rounded-lg mb-6">
-              <h3 className="text-xl font-bold mb-4 theme-text-primary">Add New Product</h3>
+            <div className="bg-white border border-gray-200 p-6 rounded-lg mb-6 shadow-lg">
+              <h3 className="text-xl font-bold mb-4 text-gray-800">Add New Product</h3>
               <form onSubmit={handleAddProduct} className="grid md:grid-cols-2 gap-4">
                 <input
                   type="text"
                   placeholder="Product Name"
-                  className="p-3 theme-border rounded-lg theme-card theme-text-primary"
+                  className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                   value={newProduct.name}
                   onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
                   required
                 />
                 <select
-                  className="p-3 theme-border rounded-lg theme-card theme-text-primary"
+                  className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                   value={newProduct.category}
                   onChange={(e) => setNewProduct({...newProduct, category: e.target.value})}
                 >
@@ -341,7 +341,7 @@ const Dashboard = ({ user }) => {
                 <input
                   type="number"
                   placeholder="Price"
-                  className="p-3 theme-border rounded-lg theme-card theme-text-primary"
+                  className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                   value={newProduct.price}
                   onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
                   required
@@ -349,7 +349,7 @@ const Dashboard = ({ user }) => {
                 <input
                   type="number"
                   placeholder="Quantity"
-                  className="p-3 theme-border rounded-lg theme-card theme-text-primary"
+                  className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                   value={newProduct.quantity}
                   onChange={(e) => setNewProduct({...newProduct, quantity: e.target.value})}
                   required
@@ -357,7 +357,7 @@ const Dashboard = ({ user }) => {
                 <input
                   type="text"
                   placeholder="Unit (kg, dozen, liters)"
-                  className="p-3 theme-border rounded-lg theme-card theme-text-primary"
+                  className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                   value={newProduct.unit}
                   onChange={(e) => setNewProduct({...newProduct, unit: e.target.value})}
                   required
@@ -365,7 +365,7 @@ const Dashboard = ({ user }) => {
                 <input
                   type="text"
                   placeholder="Farm Address"
-                  className="p-3 theme-border rounded-lg theme-card theme-text-primary"
+                  className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                   value={newProduct.farmAddress}
                   onChange={(e) => setNewProduct({...newProduct, farmAddress: e.target.value})}
                   required
@@ -374,17 +374,17 @@ const Dashboard = ({ user }) => {
                 <input
                   type="tel"
                   placeholder="Farm Phone"
-                  className="p-3 theme-border rounded-lg theme-card theme-text-primary"
+                  className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
                   value={newProduct.farmPhone}
                   onChange={(e) => setNewProduct({...newProduct, farmPhone: e.target.value})}
                   required
                 />
                 <div className="md:col-span-2">
-                  <label className="block text-sm font-medium theme-text-primary mb-2">Product Image</label>
+                  <label className="block text-sm font-medium text-gray-800 mb-2">Product Image</label>
                   <input
                     type="file"
                     accept="image/*"
-                    className="p-3 theme-border rounded-lg w-full theme-card theme-text-primary"
+                    className="p-3 border border-gray-200 rounded-lg w-full bg-white text-gray-800"
                     onChange={handleImageUpload}
                   />
                   {newProduct.image && (
@@ -415,17 +415,17 @@ const Dashboard = ({ user }) => {
 
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
             {myProducts.length === 0 ? (
-              <p className="col-span-full text-center theme-text-secondary">No products added yet</p>
+              <p className="col-span-full text-center text-gray-600">No products added yet</p>
             ) : (
               myProducts.map(product => (
-                <div key={product._id} className="theme-card p-4 rounded-lg">
+                <div key={product._id} className="bg-white border border-gray-200 p-4 rounded-lg shadow-lg">
                   {product.image && (
                     <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3" />
                   )}
-                  <h3 className="text-lg font-semibold mb-2 theme-text-primary">{product.name}</h3>
-                  <p className="theme-text-secondary mb-1 text-sm">Category: {product.category}</p>
-                  <p className="theme-text-accent font-bold mb-2">₹{product.price}/{product.unit}</p>
-                  <p className="theme-text-secondary mb-3 text-sm">Available: {product.quantity} {product.unit}</p>
+                  <h3 className="text-lg font-semibold mb-2 text-gray-800">{product.name}</h3>
+                  <p className="text-gray-600 mb-1 text-sm">Category: {product.category}</p>
+                  <p className="text-emerald-500 font-bold mb-2">₹{product.price}/{product.unit}</p>
+                  <p className="text-gray-600 mb-3 text-sm">Available: {product.quantity} {product.unit}</p>
                   <div className="flex space-x-2">
                     <button
                       onClick={() => products.delete(product._id).then(loadMyProducts)}
@@ -443,25 +443,25 @@ const Dashboard = ({ user }) => {
 
       {activeTab === 'orders' && (
         <div>
-          <h2 className="text-2xl font-bold mb-6 theme-text-primary">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">
             {user.role === 'farmer' ? 'Incoming Orders' : 'My Orders'}
           </h2>
           <div className="space-y-4">
             {orderList.map(order => (
-              <div key={order._id} className="theme-card p-6 rounded-lg">
+              <div key={order._id} className="bg-white border border-gray-200 p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 theme-text-primary">
+                    <h3 className="text-xl font-semibold mb-2 text-gray-800">
                       {order.product?.name} - {order.quantity} units
                     </h3>
-                    <p className="theme-text-secondary mb-2">
+                    <p className="text-gray-600 mb-2">
                       {user.role === 'farmer' ? `Client: ${order.client?.name}` : `Farm: ${order.farmer?.farmName}`}
                     </p>
-                    <p className="theme-text-secondary mb-2">
+                    <p className="text-gray-600 mb-2">
                       Phone: {user.role === 'farmer' ? order.client?.phone : order.farmer?.phone}
                     </p>
-                    <p className="theme-text-accent font-bold mb-2">Total: ₹{order.totalPrice}</p>
-                    <p className="theme-text-secondary">Status: {order.status}</p>
+                    <p className="text-emerald-500 font-bold mb-2">Total: ₹{order.totalPrice}</p>
+                    <p className="text-gray-600">Status: {order.status}</p>
                   </div>
                   <div className="space-x-2">
                     {user.role === 'farmer' && order.status === 'pending' && (
