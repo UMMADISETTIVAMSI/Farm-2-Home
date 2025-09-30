@@ -62,7 +62,7 @@ const Dashboard = ({ user }) => {
   const loadProducts = async (page = currentPage) => {
     try {
       setLoading(true);
-      const params = { page, limit: 50 };
+      const params = { page, limit: 12 };
       if (searchTerm.trim()) params.search = searchTerm.trim();
       if (category) params.category = category;
       
