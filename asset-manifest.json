@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/Crop-2-Door/static/css/main.93a0497a.css",
-    "main.js": "/Crop-2-Door/static/js/main.d4e3bd41.js",
-    "index.html": "/Crop-2-Door/index.html",
-    "main.93a0497a.css.map": "/Crop-2-Door/static/css/main.93a0497a.css.map",
-    "main.d4e3bd41.js.map": "/Crop-2-Door/static/js/main.d4e3bd41.js.map"
+    "main.css": "/Farm-2-Home/static/css/main.93a0497a.css",
+    "main.js": "/Farm-2-Home/static/js/main.d4e3bd41.js",
+    "index.html": "/Farm-2-Home/index.html",
+    "main.93a0497a.css.map": "/Farm-2-Home/static/css/main.93a0497a.css.map",
+    "main.d4e3bd41.js.map": "/Farm-2-Home/static/js/main.d4e3bd41.js.map"
   },
   "entrypoints": [
     "static/css/main.93a0497a.css",
