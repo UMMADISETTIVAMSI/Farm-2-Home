@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -38,7 +38,7 @@ function App() {
               <Route path="/register" element={!user ? <Register setUser={setUser} /> : <Navigate to="/dashboard" />} />
               <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Navigate to="/login" />} />
               <Route path="/profile" element={user ? <Profile user={user} setUser={setUser} /> : <Navigate to="/login" />} />
-              <Route path="*" element={<Home />} />
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </div>
         </div>
