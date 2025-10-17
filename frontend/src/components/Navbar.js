@@ -11,7 +11,7 @@ const Navbar = ({ user, logout }) => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <Link to="/" className="text-xl md:text-2xl font-bold text-gray-800 dark:text-white hover:opacity-80 transition-all duration-200">
-            <i className="fas fa-leaf mr-2"></i>Farm2Home
+            <i className="fas fa-leaf mr-2"></i>Crop2Door
           </Link>
           
           {/* Desktop Menu */}

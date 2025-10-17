@@ -10,7 +10,7 @@ const Home = () => {
           <div className="text-center">
             <h1 className="text-6xl md:text-7xl font-bold mb-6 text-gray-800 dark:text-white">
               <i className="fas fa-seedling mr-4"></i>
-              Farm2Home
+              Crop2Door
             </h1>
             <p className="text-2xl md:text-3xl mb-8 text-gray-800 dark:text-gray-200 font-light">
               Connecting Farmers & Consumers Directly
@@ -34,7 +34,7 @@ const Home = () => {
       <div className="py-20">
         <div className="container mx-auto px-6">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">Why Choose Farm2Home?</h2>
+            <h2 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">Why Choose Crop2Door?</h2>
             <p className="text-xl text-gray-600 dark:text-gray-300">Experience the difference of direct farm-to-table shopping</p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
