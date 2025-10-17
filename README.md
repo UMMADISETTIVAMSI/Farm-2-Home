@@ -1,4 +1,4 @@
-# Farm2Home - Direct Farm to Consumer Platform
+# Crop2Door - Direct Farm to Consumer Platform
 
 A full-stack web application connecting farmers directly with clients, eliminating middlemen for fresh, affordable farm products.
 
@@ -84,7 +84,7 @@ A full-stack web application connecting farmers directly with clients, eliminati
 1. **Clone and setup:**
    ```bash
    git clone <repository>
-   cd farm2home
+   cd crop2door
    ```
 
 2. **Backend setup:**
@@ -134,7 +134,7 @@ JWT_SECRET=your_jwt_secret_key
 ## Project Structure
 
 ```
-farm2home/
+crop2door/
 ├── backend/
 │   ├── models/          # Database schemas with validation
 │   ├── routes/          # API routes with middleware
