@@ -12,13 +12,20 @@ import Cart from './pages/Cart';
 
 function App() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     const userData = localStorage.getItem('user');
     if (token && userData) {
-      setUser(JSON.parse(userData));
+      try {
+        setUser(JSON.parse(userData));
+      } catch (error) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      }
     }
+    setLoading(false);
   }, []);
 
   const logout = () => {
@@ -27,10 +34,18 @@ function App() {
     setUser(null);
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
   return (
     <ThemeProvider>
       <CartProvider>
-        <Router basename="/Crop-2-Door" future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-emerald-50 to-amber-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-300">
           <Navbar user={user} logout={logout} />
           <div style={{ paddingTop: '70px' }}>

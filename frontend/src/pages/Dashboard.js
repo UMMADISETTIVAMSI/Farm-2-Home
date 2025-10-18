@@ -74,9 +74,9 @@ const Dashboard = ({ user }) => {
       console.log('Loading products with params:', params);
       const response = await products.getAll(params);
       console.log('Products response:', response.data);
-      setProductList(response.data.products);
-      setTotalPages(response.data.totalPages);
-      setCurrentPage(response.data.page);
+      setProductList(response.data.products || []);
+      setTotalPages(response.data.totalPages || 1);
+      setCurrentPage(response.data.page || 1);
     } catch (error) {
       console.error('Error loading products:', error);
       console.error('Error details:', error.response?.data);
@@ -299,9 +299,9 @@ const Dashboard = ({ user }) => {
                   >
                     Previous
                   </button>
-                  {[...Array(totalPages)].map((_, i) => (
+                  {Array.from({ length: totalPages }, (_, i) => (
                     <button
-                      key={i + 1}
+                      key={`page-${i + 1}`}
                       onClick={() => handlePageChange(i + 1)}
                       className={`px-4 py-2 border border-gray-200 rounded ${
                         currentPage === i + 1 ? 'bg-blue-400 text-white' : 'bg-white text-gray-800 hover:opacity-80'
@@ -602,7 +602,7 @@ const Dashboard = ({ user }) => {
             {user.role === 'farmer' ? 'Incoming Orders' : 'My Orders'}
           </h2>
           <div className="space-y-4">
-            {orderList.map(order => (
+            {orderList && orderList.length > 0 ? orderList.map(order => (
               <div key={order._id} className="bg-white border border-gray-200 p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-start">
                   <div>
@@ -646,7 +646,9 @@ const Dashboard = ({ user }) => {
                   </div>
                 </div>
               </div>
-            ))}
+            )) : (
+              <p className="text-center text-gray-600 dark:text-gray-300">No orders found</p>
+            )}
           </div>
         </div>
       )}

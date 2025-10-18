@@ -5,35 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
   <title>Crop2Door - Direct Farm to Consumer</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class'
-    };
-    
-    // Suppress all console warnings for production
-    if (typeof console !== 'undefined') {
-      const originalWarn = console.warn;
-      const originalLog = console.log;
-      console.warn = function(...args) {
-        const msg = args[0] || '';
-        if (msg.includes('cdn.tailwindcss.com') || 
-            msg.includes('React DevTools') ||
-            msg.includes('React Router Future Flag')) return;
-        originalWarn.apply(console, args);
-      };
-      console.log = function(...args) {
-        const msg = args[0] || '';
-        if (msg.includes('Download the React DevTools')) return;
-        originalLog.apply(console, args);
-      };
-    }
-  </script>
+
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 </head>
-<body class="font-inter bg-gradient-to-br from-blue-50 via-emerald-50 to-amber-50">
+<body>
   <script type="text/javascript">
     (function(l) {
       if (l.search[1] === '/' ) {
