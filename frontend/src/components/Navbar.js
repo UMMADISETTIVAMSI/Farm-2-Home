@@ -52,8 +52,7 @@ const Navbar = ({ user, logout }) => {
                     onClick={() => setDropdownOpen(!dropdownOpen)}
                     className="flex items-center px-4 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white"
                   >
-                    <i className="fas fa-user mr-2"></i>{user.name}
-                    <i className={`fas fa-chevron-down ml-2 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}></i>
+                    <i className="fas fa-bars text-lg"></i>
                   </button>
                   
                   {dropdownOpen && (
