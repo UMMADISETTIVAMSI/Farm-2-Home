@@ -11,13 +11,30 @@ const Register = ({ setUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
+    
+    // Basic validation
+    if (!formData.name.trim() || !formData.email.trim() || !formData.password.trim()) {
+      setError('Please fill all required fields');
+      return;
+    }
+    
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+    
     try {
+      console.log('Registering with data:', { ...formData, password: '***' });
       const response = await auth.register(formData);
+      console.log('Registration successful:', response.data);
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
       setUser(response.data.user);
     } catch (error) {
-      setError(error.response?.data?.message || 'Registration failed');
+      console.error('Registration error:', error);
+      console.error('Error response:', error.response?.data);
+      setError(error.response?.data?.message || error.message || 'Registration failed');
     }
   };
 

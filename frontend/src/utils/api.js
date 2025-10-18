@@ -35,6 +35,8 @@ export const products = {
   getMyProducts: () => api.get('/products/my-products'),
   update: (id, data) => api.put(`/products/${id}`, data),
   delete: (id) => api.delete(`/products/${id}`),
+  getFavorites: () => api.get('/products/favorites'),
+  toggleFavorite: (id) => api.post(`/products/${id}/favorite`),
 };
 
 export const orders = {
@@ -43,6 +45,7 @@ export const orders = {
   getFarmerOrders: () => api.get('/orders/farmer-orders'),
   updateStatus: (id, status) => api.put(`/orders/${id}/status`, { status }),
   cancel: (id) => api.put(`/orders/${id}/cancel`),
+  getEarnings: () => api.get('/orders/earnings'),
 };
 
 export default api;

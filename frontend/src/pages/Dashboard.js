@@ -8,6 +8,8 @@ const Dashboard = ({ user }) => {
   const [productList, setProductList] = useState([]);
   const [myProducts, setMyProducts] = useState([]);
   const [orderList, setOrderList] = useState([]);
+  const [earnings, setEarnings] = useState({ total: 0, monthly: 0, pending: 0 });
+  const [favorites, setFavorites] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,13 +27,20 @@ const Dashboard = ({ user }) => {
   const [editProduct, setEditProduct] = useState({});
 
   useEffect(() => {
+    if (user.role === 'client') loadFavorites(); // Load favorites on component mount for clients
     if (activeTab === 'browse') {
       setCurrentPage(1);
       loadProducts(1);
     }
     if (activeTab === 'products') loadMyProducts();
     if (activeTab === 'orders') loadOrders();
+    if (activeTab === 'earnings') loadEarnings();
+    if (activeTab === 'favorites') loadFavorites();
   }, [activeTab]);
+
+  useEffect(() => {
+    if (user.role === 'client') loadFavorites();
+  }, []);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -102,6 +111,39 @@ const Dashboard = ({ user }) => {
       setOrderList(response.data);
     } catch (error) {
       console.error('Error loading orders:', error);
+    }
+  };
+
+  const loadEarnings = async () => {
+    try {
+      const response = await orders.getEarnings();
+      setEarnings(response.data);
+    } catch (error) {
+      console.error('Error loading earnings:', error);
+    }
+  };
+
+  const loadFavorites = async () => {
+    try {
+      if (user.role === 'client') {
+        const response = await products.getFavorites();
+        setFavorites(response.data || []);
+      }
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+      setFavorites([]);
+    }
+  };
+
+  const toggleFavorite = async (productId) => {
+    try {
+      const response = await products.toggleFavorite(productId);
+      console.log('Toggle response:', response.data);
+      await loadFavorites();
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      console.error('Error details:', error.response?.data);
+      alert('Error updating favorite: ' + (error.response?.data?.message || error.message));
     }
   };
 
@@ -181,20 +223,36 @@ const Dashboard = ({ user }) => {
       
       <div className="flex space-x-4 mb-6">
         {user.role === 'client' && (
-          <button
-            onClick={() => setActiveTab('browse')}
-            className={`px-4 py-2 rounded transition-colors ${activeTab === 'browse' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
-          >
-            Browse Products
-          </button>
+          <>
+            <button
+              onClick={() => setActiveTab('browse')}
+              className={`px-4 py-2 rounded transition-colors ${activeTab === 'browse' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
+            >
+              Browse Products
+            </button>
+            <button
+              onClick={() => setActiveTab('favorites')}
+              className={`px-4 py-2 rounded transition-colors ${activeTab === 'favorites' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
+            >
+              Favorites
+            </button>
+          </>
         )}
         {user.role === 'farmer' && (
-          <button
-            onClick={() => setActiveTab('products')}
-            className={`px-4 py-2 rounded transition-colors ${activeTab === 'products' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
-          >
-            My Products
-          </button>
+          <>
+            <button
+              onClick={() => setActiveTab('products')}
+              className={`px-4 py-2 rounded transition-colors ${activeTab === 'products' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
+            >
+              My Products
+            </button>
+            <button
+              onClick={() => setActiveTab('earnings')}
+              className={`px-4 py-2 rounded transition-colors ${activeTab === 'earnings' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
+            >
+              Earnings
+            </button>
+          </>
         )}
         <button
           onClick={() => setActiveTab('orders')}
@@ -262,6 +320,12 @@ const Dashboard = ({ user }) => {
                           className="w-16 p-2 border border-gray-200 dark:border-gray-600 rounded text-sm bg-white dark:bg-gray-700 text-gray-800 dark:text-white"
                           id={`qty-${product._id}`}
                         />
+                        <button
+                          onClick={() => toggleFavorite(product._id)}
+                          className="px-3 py-2 rounded text-sm transform transition-all duration-200 hover:scale-105 bg-white border border-gray-300 hover:bg-gray-50"
+                        >
+                          <i className={`fas fa-heart text-lg transition-colors duration-200 ${favorites.some(fav => fav._id === product._id) ? 'text-red-500' : 'text-gray-400'}`}></i>
+                        </button>
                         <button
                           onClick={() => {
                             const qty = document.getElementById(`qty-${product._id}`).value;
@@ -596,40 +660,119 @@ const Dashboard = ({ user }) => {
         </div>
       )}
 
+      {activeTab === 'earnings' && user.role === 'farmer' && (
+        <div>
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Earnings Dashboard</h2>
+          <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Total Earnings</h3>
+              <p className="text-3xl font-bold text-emerald-500">₹{earnings.total}</p>
+            </div>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">This Month</h3>
+              <p className="text-3xl font-bold text-blue-500">₹{earnings.monthly}</p>
+            </div>
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Pending</h3>
+              <p className="text-3xl font-bold text-orange-500">₹{earnings.pending}</p>
+            </div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
+            <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Recent Orders</h3>
+            <div className="space-y-4">
+              {orderList.slice(0, 5).map(order => (
+                <div key={order._id} className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                  <div>
+                    <p className="font-semibold text-gray-800 dark:text-white">{order.product?.name}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{order.client?.name} - {order.quantity} units</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold text-emerald-500">₹{order.totalPrice}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{order.status}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'favorites' && user.role === 'client' && (
+        <div>
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Favorite Products</h2>
+          <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {favorites.length === 0 ? (
+              <p className="col-span-full text-center text-gray-600 dark:text-gray-300">No favorites added yet</p>
+            ) : (
+              favorites.map(product => (
+                <div key={product._id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-blue-300 cursor-pointer">
+                  {product.image && (
+                    <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3 transition-transform duration-300 hover:scale-110" />
+                  )}
+                  <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white transition-colors duration-300 hover:text-blue-600">{product.name}</h3>
+                  <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">Category: {product.category}</p>
+                  <p className="text-emerald-500 font-bold mb-2">₹{product.price}/{product.unit}</p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">Available: {product.quantity} {product.unit}</p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">Farm: {product.farmName}</p>
+                  <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm">Area: {product.farmAddress}</p>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => toggleFavorite(product._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm transform transition-all duration-200 hover:scale-105"
+                    >
+                      <i className="fas fa-heart-broken"></i> Remove
+                    </button>
+                    <button
+                      onClick={() => {
+                        addToCart(product, 1);
+                        alert('Added to cart!');
+                      }}
+                      className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-sm transform transition-all duration-200 hover:scale-105"
+                    >
+                      Add to Cart
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
       {activeTab === 'orders' && (
         <div>
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">
-            {user.role === 'farmer' ? 'Incoming Orders' : 'My Orders'}
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
+            {user.role === 'farmer' ? 'Order Management' : 'My Orders'}
           </h2>
           <div className="space-y-4">
             {orderList && orderList.length > 0 ? orderList.map(order => (
-              <div key={order._id} className="bg-white border border-gray-200 p-6 rounded-lg shadow-lg">
+              <div key={order._id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-lg">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-xl font-semibold mb-2 text-gray-800">
+                    <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white">
                       {order.product?.name} - {order.quantity} units
                     </h3>
-                    <p className="text-gray-600 mb-2">
+                    <p className="text-gray-600 dark:text-gray-300 mb-2">
                       {user.role === 'farmer' ? `Client: ${order.client?.name}` : `Farm: ${order.farmer?.farmName}`}
                     </p>
-                    <p className="text-gray-600 mb-2">
+                    <p className="text-gray-600 dark:text-gray-300 mb-2">
                       Phone: {user.role === 'farmer' ? order.client?.phone : order.farmer?.phone}
                     </p>
                     <p className="text-emerald-500 font-bold mb-2">Total: ₹{order.totalPrice}</p>
-                    <p className="text-gray-600">Status: {order.status}</p>
+                    <p className="text-gray-600 dark:text-gray-300">Status: <span className={`font-semibold ${order.status === 'delivered' ? 'text-green-600' : order.status === 'confirmed' ? 'text-blue-600' : order.status === 'cancelled' ? 'text-red-600' : 'text-orange-600'}`}>{order.status}</span></p>
                   </div>
                   <div className="space-x-2">
                     {user.role === 'farmer' && order.status === 'pending' && (
                       <>
                         <button
                           onClick={() => updateOrderStatus(order._id, 'confirmed')}
-                          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transform transition-all duration-200 hover:scale-105"
                         >
                           Confirm
                         </button>
                         <button
                           onClick={() => updateOrderStatus(order._id, 'delivered')}
-                          className="bg-blue-400 text-white px-4 py-2 rounded hover:bg-blue-500"
+                          className="bg-emerald-500 text-white px-4 py-2 rounded hover:bg-emerald-600 transform transition-all duration-200 hover:scale-105"
                         >
                           Mark Delivered
                         </button>
@@ -638,7 +781,7 @@ const Dashboard = ({ user }) => {
                     {user.role === 'client' && order.status === 'pending' && (
                       <button
                         onClick={() => cancelOrder(order._id)}
-                        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                        className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transform transition-all duration-200 hover:scale-105"
                       >
                         Cancel Order
                       </button>

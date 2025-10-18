@@ -99,4 +99,44 @@ router.delete('/:id', auth, farmerOnly, async (req, res) => {
   }
 });
 
+router.get('/favorites', auth, async (req, res) => {
+  try {
+    const User = require('../models/User');
+    const user = await User.findById(req.user._id).populate({
+      path: 'favorites',
+      select: 'name category price quantity unit image farmName farmAddress farmPhone'
+    });
+    res.json(user.favorites || []);
+  } catch (error) {
+    console.error('Favorites error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.post('/:id/favorite', auth, async (req, res) => {
+  try {
+    const User = require('../models/User');
+    const user = await User.findById(req.user._id);
+    const productId = req.params.id;
+    
+    if (!user.favorites) {
+      user.favorites = [];
+    }
+    
+    const favoriteIndex = user.favorites.findIndex(id => id.toString() === productId);
+    
+    if (favoriteIndex > -1) {
+      user.favorites.splice(favoriteIndex, 1);
+    } else {
+      user.favorites.push(productId);
+    }
+    
+    await user.save();
+    res.json({ message: 'Favorite toggled successfully' });
+  } catch (error) {
+    console.error('Toggle favorite error:', error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
 module.exports = router;
