@@ -1,12 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useCart } from '../contexts/CartContext';
 
 const Navbar = ({ user, logout }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
   const { getCartCount } = useCart();
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-xl fixed w-full top-0 z-50 transition-colors duration-200">
@@ -33,15 +45,41 @@ const Navbar = ({ user, logout }) => {
                     )}
                   </Link>
                 )}
-                <Link to="/profile" className="flex items-center px-4 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white">
-                  <i className="fas fa-user mr-2"></i>Profile
-                </Link>
-                <button onClick={toggleTheme} className="flex items-center px-4 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white">
-                  <i className={`fas ${isDark ? 'fa-sun' : 'fa-moon'} mr-2`}></i>{isDark ? 'Light' : 'Dark'}
-                </button>
-                <button onClick={logout} className="flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 rounded-full transition-all duration-200 shadow-lg text-white">
-                  <i className="fas fa-sign-out-alt mr-2"></i>Logout
-                </button>
+                
+                {/* Profile Dropdown */}
+                <div className="relative" ref={dropdownRef}>
+                  <button 
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="flex items-center px-4 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white"
+                  >
+                    <i className="fas fa-user mr-2"></i>{user.name}
+                    <i className={`fas fa-chevron-down ml-2 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}></i>
+                  </button>
+                  
+                  {dropdownOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 z-50">
+                      <Link 
+                        to="/profile" 
+                        className="flex items-center px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white rounded-t-lg"
+                        onClick={() => setDropdownOpen(false)}
+                      >
+                        <i className="fas fa-user mr-3"></i>Profile
+                      </Link>
+                      <button 
+                        onClick={() => { toggleTheme(); setDropdownOpen(false); }}
+                        className="flex items-center w-full px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white text-left"
+                      >
+                        <i className={`fas ${isDark ? 'fa-sun' : 'fa-moon'} mr-3`}></i>{isDark ? 'Light Mode' : 'Dark Mode'}
+                      </button>
+                      <button 
+                        onClick={() => { logout(); setDropdownOpen(false); }}
+                        className="flex items-center w-full px-4 py-3 hover:bg-red-50 dark:hover:bg-red-900 transition-all duration-200 text-red-600 dark:text-red-400 text-left rounded-b-lg border-t border-gray-200 dark:border-gray-700"
+                      >
+                        <i className="fas fa-sign-out-alt mr-3"></i>Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
               </>
             ) : (
               <>
