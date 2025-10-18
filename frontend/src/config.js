@@ -1,4 +1,3 @@
-export const API_URL = process.env.REACT_APP_API_URL || 
-  (process.env.NODE_ENV === 'production' 
-    ? 'https://crop2door-backend.onrender.com/api'
-    : 'http://localhost:5000/api');
+export const API_URL = process.env.NODE_ENV === 'production' 
+  ? 'https://your-backend-url.herokuapp.com/api' 
+  : process.env.REACT_APP_API_URL || 'http://localhost:5001/api';

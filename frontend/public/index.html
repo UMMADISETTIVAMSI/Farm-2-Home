@@ -7,17 +7,25 @@
   <title>Crop2Door - Direct Farm to Consumer</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Configure Tailwind for dark mode
     tailwind.config = {
       darkMode: 'class'
     };
     
-    // Suppress Tailwind CDN production warning
+    // Suppress all console warnings for production
     if (typeof console !== 'undefined') {
       const originalWarn = console.warn;
+      const originalLog = console.log;
       console.warn = function(...args) {
-        if (args[0] && args[0].includes('cdn.tailwindcss.com')) return;
+        const msg = args[0] || '';
+        if (msg.includes('cdn.tailwindcss.com') || 
+            msg.includes('React DevTools') ||
+            msg.includes('React Router Future Flag')) return;
         originalWarn.apply(console, args);
+      };
+      console.log = function(...args) {
+        const msg = args[0] || '';
+        if (msg.includes('Download the React DevTools')) return;
+        originalLog.apply(console, args);
       };
     }
   </script>
@@ -26,6 +34,18 @@
 
 </head>
 <body class="font-inter bg-gradient-to-br from-blue-50 via-emerald-50 to-amber-50">
+  <script type="text/javascript">
+    (function(l) {
+      if (l.search[1] === '/' ) {
+        var decoded = l.search.slice(1).split('&').map(function(s) { 
+          return s.replace(/~and~/g, '&')
+        }).join('?');
+        window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+        );
+      }
+    }(window.location))
+  </script>
   <div id="root"></div>
 </body>
 </html>
