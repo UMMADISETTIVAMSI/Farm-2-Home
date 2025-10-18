@@ -1,6 +1,6 @@
 @echo off
-echo Quick Deploy...
-git add . && git commit -m "update" && git push
+echo Crop2Door Quick Deploy...
+git add . && git commit -m "crop2door update" && git push
 cd frontend && npm run deploy
-echo Done!
+echo Crop2Door deployed!
 pause

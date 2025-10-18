@@ -1,5 +1,5 @@
 @echo off
-echo Deploying Both Backend and Frontend...
+echo Deploying Crop2Door Backend and Frontend...
 echo.
 echo 1. Committing and pushing to Git (Backend)...
 git add .
@@ -8,7 +8,7 @@ if errorlevel 1 (
     pause
     exit /b 1
 )
-git commit -m "update"
+git commit -m "crop2door update"
 if errorlevel 1 (
     echo Warning: Nothing to commit or commit failed
 )
@@ -19,7 +19,7 @@ if errorlevel 1 (
     exit /b 1
 )
 echo.
-echo 2. Deploying Frontend to GitHub Pages...
+echo 2. Deploying Crop2Door Frontend to GitHub Pages...
 cd frontend
 if not exist package.json (
     echo Error: package.json not found in frontend directory
@@ -35,5 +35,5 @@ if errorlevel 1 (
 )
 cd ..
 echo.
-echo All deployments complete!
+echo Crop2Door deployments complete!
 pause
