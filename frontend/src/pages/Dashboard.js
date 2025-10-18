@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { products, orders } from '../utils/api';
+import { useCart } from '../contexts/CartContext';
 
 const Dashboard = ({ user }) => {
+  const { addToCart } = useCart();
   const [activeTab, setActiveTab] = useState(user.role === 'farmer' ? 'products' : 'browse');
   const [productList, setProductList] = useState([]);
   const [myProducts, setMyProducts] = useState([]);
@@ -18,6 +20,9 @@ const Dashboard = ({ user }) => {
     name: '', category: 'Vegetables', price: '', quantity: '', unit: 'kg',
     farmAddress: '', farmPhone: '', image: ''
   });
+  
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editProduct, setEditProduct] = useState({});
 
   useEffect(() => {
     if (activeTab === 'browse') {
@@ -260,11 +265,24 @@ const Dashboard = ({ user }) => {
                         <button
                           onClick={() => {
                             const qty = document.getElementById(`qty-${product._id}`).value;
+                            if (qty) {
+                              addToCart(product, parseInt(qty));
+                              alert('Added to cart!');
+                              document.getElementById(`qty-${product._id}`).value = '';
+                            }
+                          }}
+                          className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-sm"
+                        >
+                          Add to Cart
+                        </button>
+                        <button
+                          onClick={() => {
+                            const qty = document.getElementById(`qty-${product._id}`).value;
                             if (qty) handleOrder(product._id, qty);
                           }}
                           className="bg-emerald-400 text-white px-3 py-2 rounded hover:bg-emerald-500 text-sm"
                         >
-                          Order
+                          Order Now
                         </button>
                       </div>
                     </div>
@@ -431,8 +449,24 @@ const Dashboard = ({ user }) => {
                   <p className="text-gray-600 mb-3 text-sm">Available: {product.quantity} {product.unit}</p>
                   <div className="flex space-x-2">
                     <button
-                      onClick={() => products.delete(product._id).then(loadMyProducts)}
-                      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm"
+                      onClick={() => {
+                        setEditingProduct(product._id);
+                        setEditProduct(product);
+                      }}
+                      className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-sm"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (window.confirm('Are you sure you want to delete this product?')) {
+                          products.delete(product._id).then(() => {
+                            alert('Product deleted successfully!');
+                            loadMyProducts();
+                          });
+                        }
+                      }}
+                      className="bg-red-600 text-white px-3 py-2 rounded hover:bg-red-700 text-sm"
                     >
                       Delete
                     </button>
@@ -441,6 +475,124 @@ const Dashboard = ({ user }) => {
               ))
             )}
           </div>
+          
+          {/* Edit Product Modal */}
+          {editingProduct && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-screen overflow-y-auto">
+                <h3 className="text-xl font-bold mb-4 text-gray-800">Edit Product</h3>
+                <form onSubmit={async (e) => {
+                  e.preventDefault();
+                  try {
+                    await products.update(editingProduct, editProduct);
+                    alert('Product updated successfully!');
+                    setEditingProduct(null);
+                    loadMyProducts();
+                  } catch (error) {
+                    alert('Error updating product: ' + (error.response?.data?.message || error.message));
+                  }
+                }} className="grid md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Product Name"
+                    className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
+                    value={editProduct.name || ''}
+                    onChange={(e) => setEditProduct({...editProduct, name: e.target.value})}
+                    required
+                  />
+                  <select
+                    className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
+                    value={editProduct.category || 'Vegetables'}
+                    onChange={(e) => setEditProduct({...editProduct, category: e.target.value})}
+                  >
+                    <option value="Vegetables">Vegetables</option>
+                    <option value="Fruits">Fruits</option>
+                    <option value="Dairy">Dairy</option>
+                    <option value="Grains">Grains</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  <input
+                    type="number"
+                    placeholder="Price"
+                    className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
+                    value={editProduct.price || ''}
+                    onChange={(e) => setEditProduct({...editProduct, price: e.target.value})}
+                    required
+                  />
+                  <input
+                    type="number"
+                    placeholder="Quantity"
+                    className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
+                    value={editProduct.quantity || ''}
+                    onChange={(e) => setEditProduct({...editProduct, quantity: e.target.value})}
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Unit (kg, dozen, liters)"
+                    className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
+                    value={editProduct.unit || ''}
+                    onChange={(e) => setEditProduct({...editProduct, unit: e.target.value})}
+                    required
+                  />
+                  <input
+                    type="text"
+                    placeholder="Farm Address"
+                    className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
+                    value={editProduct.farmAddress || ''}
+                    onChange={(e) => setEditProduct({...editProduct, farmAddress: e.target.value})}
+                    required
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Farm Phone"
+                    className="p-3 border border-gray-200 rounded-lg bg-white text-gray-800"
+                    value={editProduct.farmPhone || ''}
+                    onChange={(e) => setEditProduct({...editProduct, farmPhone: e.target.value})}
+                    required
+                  />
+                  <div className="md:col-span-2">
+                    <label className="block text-sm font-medium text-gray-800 mb-2">Product Image</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="p-3 border border-gray-200 rounded-lg w-full bg-white text-gray-800"
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setEditProduct({...editProduct, image: reader.result});
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                    />
+                    {editProduct.image && (
+                      <div className="mt-4">
+                        <img src={editProduct.image} alt="Preview" className="w-32 h-32 object-cover rounded-lg" />
+                      </div>
+                    )}
+                  </div>
+                  <div className="md:col-span-2 flex space-x-4">
+                    <button 
+                      type="submit" 
+                      className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+                    >
+                      Update Product
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingProduct(null)}
+                      className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

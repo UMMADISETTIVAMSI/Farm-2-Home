@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
+import { useCart } from '../contexts/CartContext';
 
 const Navbar = ({ user, logout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { isDark, toggleTheme } = useTheme();
+  const { getCartCount } = useCart();
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-xl fixed w-full top-0 z-50 transition-colors duration-200">
@@ -21,6 +23,16 @@ const Navbar = ({ user, logout }) => {
                 <Link to="/dashboard" className="flex items-center px-4 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white">
                   <i className="fas fa-tachometer-alt mr-2"></i>Dashboard
                 </Link>
+                {user.role === 'client' && (
+                  <Link to="/cart" className="relative flex items-center px-4 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white">
+                    <i className="fas fa-shopping-cart mr-2"></i>Cart
+                    {getCartCount() > 0 && (
+                      <span className="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                        {getCartCount()}
+                      </span>
+                    )}
+                  </Link>
+                )}
                 <Link to="/profile" className="flex items-center px-4 py-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white">
                   <i className="fas fa-user mr-2"></i>Profile
                 </Link>
@@ -75,6 +87,20 @@ const Navbar = ({ user, logout }) => {
                   >
                     <i className="fas fa-user mr-3"></i>Profile
                   </Link>
+                  {user.role === 'client' && (
+                    <Link 
+                      to="/cart" 
+                      className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <i className="fas fa-shopping-cart mr-3"></i>Cart
+                      {getCartCount() > 0 && (
+                        <span className="ml-2 bg-emerald-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                          {getCartCount()}
+                        </span>
+                      )}
+                    </Link>
+                  )}
                   <button 
                     onClick={() => { toggleTheme(); setIsOpen(false); }} 
                     className="flex items-center px-4 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-200 text-gray-800 dark:text-white w-full text-left"
