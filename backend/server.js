@@ -22,11 +22,12 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 const connectDB = async () => {
   try {
-    const mongoUri = process.env.MONGODB_URI;
+    const mongoUri = process.env.MONGODB_URI || process.env.MONGODB_URL;
     
     if (!mongoUri || typeof mongoUri !== 'string') {
       console.error('MongoDB URI is not properly set');
-      console.log('Environment variables:', Object.keys(process.env));
+      console.log('MONGODB_URI:', process.env.MONGODB_URI);
+      console.log('MONGODB_URL:', process.env.MONGODB_URL);
       throw new Error('MongoDB URI must be a valid string');
     }
     
