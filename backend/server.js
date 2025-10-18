@@ -22,26 +22,17 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 const connectDB = async () => {
   try {
-    const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://farm2homefsd_db_user:vamsi1234@farm.jhmt7ll.mongodb.net/?retryWrites=true&w=majority&appName=farm';
+    const mongoUri = process.env.MONGODB_URI;
     
-    console.log('MongoDB URI exists:', !!mongoUri);
-    console.log('MongoDB URI type:', typeof mongoUri);
-    
-    if (!mongoUri) {
-      throw new Error('MongoDB URI is not defined');
+    if (!mongoUri || typeof mongoUri !== 'string') {
+      console.error('MongoDB URI is not properly set');
+      console.log('Environment variables:', Object.keys(process.env));
+      throw new Error('MongoDB URI must be a valid string');
     }
     
-    await mongoose.connect(mongoUri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000,
-      socketTimeoutMS: 45000,
-      bufferCommands: false,
-      maxPoolSize: 10,
-      minPoolSize: 2,
-      maxIdleTimeMS: 30000
-    });
-    console.log('Connected to MongoDB Atlas');
+    console.log('Connecting to MongoDB...');
+    await mongoose.connect(mongoUri);
+    console.log('Connected to MongoDB Atlas successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error.message);
     process.exit(1);
