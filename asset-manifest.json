@@ -1,11 +1,11 @@
 {
   "files": {
-    "main.css": "/Crop-2-Door/static/css/main.f73594b9.css",
-    "main.js": "/Crop-2-Door/static/js/main.d044d1ed.js",
+    "main.css": "/Crop-2-Door/static/css/main.323ded0f.css",
+    "main.js": "/Crop-2-Door/static/js/main.ba5497e7.js",
     "index.html": "/Crop-2-Door/index.html"
   },
   "entrypoints": [
-    "static/css/main.f73594b9.css",
-    "static/js/main.d044d1ed.js"
+    "static/css/main.323ded0f.css",
+    "static/js/main.ba5497e7.js"
   ]
 }
