@@ -242,11 +242,11 @@ const Dashboard = ({ user }) => {
                   <p className="col-span-full text-center text-gray-600 dark:text-gray-300">No products available</p>
                 ) : (
                   productList.map(product => (
-                    <div key={product._id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 rounded-lg shadow-lg">
+                    <div key={product._id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-blue-300 cursor-pointer">
                       {product.image && (
-                        <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3" />
+                        <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3 transition-transform duration-300 hover:scale-110" />
                       )}
-                      <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">{product.name}</h3>
+                      <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white transition-colors duration-300 hover:text-blue-600">{product.name}</h3>
                       <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">Category: {product.category}</p>
                       <p className="text-emerald-500 font-bold mb-2">₹{product.price}/{product.unit}</p>
                       <p className="text-gray-600 dark:text-gray-300 mb-1 text-sm">Available: {product.quantity} {product.unit}</p>
@@ -271,7 +271,7 @@ const Dashboard = ({ user }) => {
                               document.getElementById(`qty-${product._id}`).value = '';
                             }
                           }}
-                          className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-sm"
+                          className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 text-sm transform transition-all duration-200 hover:scale-105 active:scale-95"
                         >
                           Add to Cart
                         </button>
@@ -280,7 +280,7 @@ const Dashboard = ({ user }) => {
                             const qty = document.getElementById(`qty-${product._id}`).value;
                             if (qty) handleOrder(product._id, qty);
                           }}
-                          className="bg-emerald-400 text-white px-3 py-2 rounded hover:bg-emerald-500 text-sm"
+                          className="bg-emerald-400 text-white px-3 py-2 rounded hover:bg-emerald-500 text-sm transform transition-all duration-200 hover:scale-105 active:scale-95"
                         >
                           Order Now
                         </button>
@@ -439,9 +439,9 @@ const Dashboard = ({ user }) => {
               <p className="col-span-full text-center text-gray-600">No products added yet</p>
             ) : (
               myProducts.map(product => (
-                <div key={product._id} className="bg-white border border-gray-200 p-4 rounded-lg shadow-lg">
+                <div key={product._id} className="bg-white border border-gray-200 p-4 rounded-lg shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:border-blue-300 cursor-pointer">
                   {product.image && (
-                    <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3" />
+                    <img src={product.image} alt={product.name} className="w-full h-32 object-cover rounded-lg mb-3 transition-transform duration-300 hover:scale-110" />
                   )}
                   <h3 className="text-lg font-semibold mb-2 text-gray-800">{product.name}</h3>
                   <p className="text-gray-600 mb-1 text-sm">Category: {product.category}</p>
