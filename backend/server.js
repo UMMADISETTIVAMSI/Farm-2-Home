@@ -22,7 +22,16 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI, {
+    const mongoUri = process.env.MONGODB_URI || 'mongodb+srv://farm2homefsd_db_user:vamsi1234@farm.jhmt7ll.mongodb.net/?retryWrites=true&w=majority&appName=farm';
+    
+    console.log('MongoDB URI exists:', !!mongoUri);
+    console.log('MongoDB URI type:', typeof mongoUri);
+    
+    if (!mongoUri) {
+      throw new Error('MongoDB URI is not defined');
+    }
+    
+    await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       serverSelectionTimeoutMS: 5000,
@@ -35,7 +44,6 @@ const connectDB = async () => {
     console.log('Connected to MongoDB Atlas');
   } catch (error) {
     console.error('MongoDB connection error:', error.message);
-    console.log('\nTo fix this:\n1. Go to MongoDB Atlas → Network Access\n2. Add your current IP address\n3. Or add 0.0.0.0/0 for all IPs (less secure)');
     process.exit(1);
   }
 };
