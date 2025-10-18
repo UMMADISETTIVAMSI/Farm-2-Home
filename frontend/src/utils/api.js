@@ -45,7 +45,7 @@ export const orders = {
   getFarmerOrders: () => api.get('/orders/farmer-orders'),
   updateStatus: (id, status) => api.put(`/orders/${id}/status`, { status }),
   cancel: (id) => api.put(`/orders/${id}/cancel`),
-  getEarnings: () => api.get('/orders/earnings'),
+
 };
 
 export default api;

@@ -8,7 +8,7 @@ const Dashboard = ({ user }) => {
   const [productList, setProductList] = useState([]);
   const [myProducts, setMyProducts] = useState([]);
   const [orderList, setOrderList] = useState([]);
-  const [earnings, setEarnings] = useState({ total: 0, monthly: 0, pending: 0 });
+
   const [favorites, setFavorites] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('');
@@ -28,18 +28,20 @@ const Dashboard = ({ user }) => {
 
   useEffect(() => {
     if (user.role === 'client') loadFavorites(); // Load favorites on component mount for clients
+
     if (activeTab === 'browse') {
       setCurrentPage(1);
       loadProducts(1);
     }
     if (activeTab === 'products') loadMyProducts();
     if (activeTab === 'orders') loadOrders();
-    if (activeTab === 'earnings') loadEarnings();
+
     if (activeTab === 'favorites') loadFavorites();
   }, [activeTab]);
 
   useEffect(() => {
     if (user.role === 'client') loadFavorites();
+
   }, []);
 
   const handlePageChange = (page) => {
@@ -114,14 +116,7 @@ const Dashboard = ({ user }) => {
     }
   };
 
-  const loadEarnings = async () => {
-    try {
-      const response = await orders.getEarnings();
-      setEarnings(response.data);
-    } catch (error) {
-      console.error('Error loading earnings:', error);
-    }
-  };
+
 
   const loadFavorites = async () => {
     try {
@@ -203,6 +198,7 @@ const Dashboard = ({ user }) => {
       await orders.create({ productId, quantity: parseInt(quantity) });
       alert('Order placed successfully!');
       loadProducts();
+
     } catch (error) {
       alert(error.response?.data?.message || 'Error placing order');
     }
@@ -212,6 +208,7 @@ const Dashboard = ({ user }) => {
     try {
       await orders.updateStatus(orderId, status);
       loadOrders();
+
     } catch (error) {
       console.error('Error updating order status:', error);
     }
@@ -223,6 +220,7 @@ const Dashboard = ({ user }) => {
         await orders.cancel(orderId);
         alert('Order cancelled successfully!');
         loadOrders();
+
       } catch (error) {
         alert(error.response?.data?.message || 'Error cancelling order');
       }
@@ -258,12 +256,7 @@ const Dashboard = ({ user }) => {
             >
               My Products
             </button>
-            <button
-              onClick={() => setActiveTab('earnings')}
-              className={`px-4 py-2 rounded transition-colors ${activeTab === 'earnings' ? 'bg-blue-400 text-white' : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 text-gray-800 dark:text-white'}`}
-            >
-              Earnings
-            </button>
+
           </>
         )}
         <button
@@ -672,42 +665,7 @@ const Dashboard = ({ user }) => {
         </div>
       )}
 
-      {activeTab === 'earnings' && user.role === 'farmer' && (
-        <div>
-          <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">Earnings Dashboard</h2>
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Total Earnings</h3>
-              <p className="text-3xl font-bold text-emerald-500">₹{earnings.total}</p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">This Month</h3>
-              <p className="text-3xl font-bold text-blue-500">₹{earnings.monthly}</p>
-            </div>
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Pending</h3>
-              <p className="text-3xl font-bold text-orange-500">₹{earnings.pending}</p>
-            </div>
-          </div>
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-            <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Recent Orders</h3>
-            <div className="space-y-4">
-              {orderList.slice(0, 5).map(order => (
-                <div key={order._id} className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div>
-                    <p className="font-semibold text-gray-800 dark:text-white">{order.product?.name}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">{order.client?.name} - {order.quantity} units</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-bold text-emerald-500">₹{order.totalPrice}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">{order.status}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {activeTab === 'favorites' && user.role === 'client' && (
         <div>

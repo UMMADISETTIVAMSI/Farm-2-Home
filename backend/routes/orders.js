@@ -83,35 +83,6 @@ router.put('/:id/cancel', auth, async (req, res) => {
   }
 });
 
-router.get('/earnings', auth, async (req, res) => {
-  try {
-    const currentMonth = new Date();
-    currentMonth.setDate(1);
-    currentMonth.setHours(0, 0, 0, 0);
-    
-    const totalEarnings = await Order.aggregate([
-      { $match: { farmer: req.user._id, status: 'delivered' } },
-      { $group: { _id: null, total: { $sum: '$totalPrice' } } }
-    ]);
-    
-    const monthlyEarnings = await Order.aggregate([
-      { $match: { farmer: req.user._id, status: 'delivered', createdAt: { $gte: currentMonth } } },
-      { $group: { _id: null, total: { $sum: '$totalPrice' } } }
-    ]);
-    
-    const pendingEarnings = await Order.aggregate([
-      { $match: { farmer: req.user._id, status: { $in: ['pending', 'confirmed'] } } },
-      { $group: { _id: null, total: { $sum: '$totalPrice' } } }
-    ]);
-    
-    res.json({
-      total: totalEarnings[0]?.total || 0,
-      monthly: monthlyEarnings[0]?.total || 0,
-      pending: pendingEarnings[0]?.total || 0
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
+
 
 module.exports = router;
