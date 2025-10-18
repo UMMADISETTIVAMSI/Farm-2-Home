@@ -136,14 +136,26 @@ const Dashboard = ({ user }) => {
   };
 
   const toggleFavorite = async (productId) => {
+    // Instant UI update
+    const isFavorited = favorites.some(fav => fav._id === productId);
+    if (isFavorited) {
+      setFavorites(favorites.filter(fav => fav._id !== productId));
+    } else {
+      const product = productList.find(p => p._id === productId);
+      if (product) setFavorites([...favorites, product]);
+    }
+    
     try {
-      const response = await products.toggleFavorite(productId);
-      console.log('Toggle response:', response.data);
-      await loadFavorites();
+      await products.toggleFavorite(productId);
     } catch (error) {
+      // Revert on error
+      if (isFavorited) {
+        const product = productList.find(p => p._id === productId);
+        if (product) setFavorites([...favorites, product]);
+      } else {
+        setFavorites(favorites.filter(fav => fav._id !== productId));
+      }
       console.error('Error toggling favorite:', error);
-      console.error('Error details:', error.response?.data);
-      alert('Error updating favorite: ' + (error.response?.data?.message || error.message));
     }
   };
 
